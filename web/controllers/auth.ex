@@ -1,5 +1,8 @@
 defmodule Rumbl.Auth do
+  import Phoenix.Controller
   import Plug.Conn
+
+  alias Rumbl.Router.Helpers
 
   # compile time
   def init(opts) do
@@ -41,6 +44,17 @@ defmodule Rumbl.Auth do
       true ->
         dummy_checkpw()
         {:error, :not_found, conn}
+    end
+  end
+
+  def authenticate_user(conn, _opts) do
+    if conn.assigns.current_user do
+      conn
+    else
+      conn
+        |> put_flash(:error, "You must be logged in to access that page")
+        |> redirect(to: Helpers.page_path(conn, :index))
+        |> halt()
     end
   end
 end
