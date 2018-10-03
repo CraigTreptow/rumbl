@@ -4,6 +4,7 @@ defmodule Rumbl.User do
   def changeset(model, params \\ %{}) do model
     |> cast(params, ~w(name username), [])
     |> validate_length(:username, min: 1, max: 20)
+    |> unique_constraint(:username)
   end
 
   def registration_changeset(model, params) do
