@@ -7,6 +7,7 @@ defmodule Rumbl.Multimedia do
   alias Rumbl.Repo
   alias Rumbl.Accounts
   alias Rumbl.Multimedia.Video
+  alias Rumbl.Multimedia.Category
 
   @doc """
   Returns the list of videos.
@@ -37,7 +38,8 @@ defmodule Rumbl.Multimedia do
       ** (Ecto.NoResultsError)
 
   """
-  def get_video!(id), do: Repo.get!(Video, id)
+  #def get_video!(id), do: Repo.get!(Video, id)
+  def get_video!(id), do: preload_user(Repo.get!(Video, id))
 
   @doc """
   Creates a video.
@@ -129,9 +131,17 @@ defmodule Rumbl.Multimedia do
     from(v in query, where: v.user_id == ^user_id)
   end
 
-  def get_video!(id), do: preload_user(Repo.get!(Video, id))
-
   defp preload_user(video_or_videos) do
     Repo.preload(video_or_videos, :user)
+  end
+
+  def create_category(name) do
+    Repo.get_by(Category, name: name) || Repo.insert!(%Category{name: name})
+  end
+
+  def list_alphabetical_categories do
+    Category
+    |> Category.alphabetical()
+    |> Repo.all()
   end
 end
