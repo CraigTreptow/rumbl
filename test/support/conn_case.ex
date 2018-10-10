@@ -1,17 +1,26 @@
+#---
+# Excerpted from "Programming Phoenix 1.4",
+# published by The Pragmatic Bookshelf.
+# Copyrights apply to this code. It may not be used to create training material,
+# courses, books, articles, and the like. Contact us if you are in doubt.
+# We make no guarantees that this code is fit for any purpose.
+# Visit http://www.pragmaticprogrammer.com/titles/phoenix14 for more book information.
+#---
+
 defmodule RumblWeb.ConnCase do
   @moduledoc """
-  This module defines the test case to be used by
-  tests that require setting up a connection.
+   This module defines the test case to be used by
+   tests that require setting up a connection.
 
-  Such tests rely on `Phoenix.ConnTest` and also
-  import other functionality to make it easier
-  to build common data structures and query the data layer.
+   Such tests rely on `Phoenix.ConnTest` and also
+   import other functionality to make it easier
+   to build common data structures and query the data layer.
 
-  Finally, if the test case interacts with the database,
-  it cannot be async. For this reason, every test runs
-  inside a transaction which is reset at the beginning
-  of the test unless the test case is marked as async.
-  """
+   Finally, if the test case interacts with the database,
+   it cannot be async. For this reason, every test runs
+   inside a transaction which is reset at the beginning
+   of the test unless the test case is marked as async.
+   """
 
   use ExUnit.CaseTemplate
 
@@ -19,13 +28,15 @@ defmodule RumblWeb.ConnCase do
     quote do
       # Import conveniences for testing with connections
       use Phoenix.ConnTest
+
+      import Rumbl.TestHelpers
+
       alias RumblWeb.Router.Helpers, as: Routes
 
       # The default endpoint for testing
       @endpoint RumblWeb.Endpoint
     end
   end
-
 
   setup tags do
     :ok = Ecto.Adapters.SQL.Sandbox.checkout(Rumbl.Repo)
@@ -34,5 +45,4 @@ defmodule RumblWeb.ConnCase do
     end
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end
-
 end
