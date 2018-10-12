@@ -1,7 +1,14 @@
 defmodule RumblWeb.UserSocket do
   use Phoenix.Socket
 
-  ## Channels
+  channel "videos:*", RumblWeb.VideoChannel
+
+  def connect(_params, socket) do
+    {:ok, socket}
+  end
+
+  def id(_socket), do: nil
+
   # channel "room:*", RumblWeb.RoomChannel
 
   # Socket params are passed from the client and can
@@ -15,9 +22,6 @@ defmodule RumblWeb.UserSocket do
   #
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
-  def connect(_params, socket) do
-    {:ok, socket}
-  end
 
   # Socket id's are topics that allow you to identify all sockets for a given user:
   #
@@ -29,5 +33,4 @@ defmodule RumblWeb.UserSocket do
   #     RumblWeb.Endpoint.broadcast("user_socket:#{user.id}", "disconnect", %{})
   #
   # Returning `nil` makes this socket anonymous.
-  def id(_socket), do: nil
 end
